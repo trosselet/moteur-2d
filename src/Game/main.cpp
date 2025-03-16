@@ -10,7 +10,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
     srand(time(nullptr));
     
-    Engine::SetRenderWindow(hInstance);
+    Engine::CreateRender();
     
     Engine::GetGameManager()->LaunchScene<GameScene>();
     

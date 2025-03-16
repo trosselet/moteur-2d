@@ -11,7 +11,7 @@ Texture::Texture(std::string path): mTexture(new sf::Texture)
     }
 }
 
-sf::Texture& Texture::GetTexture()
+sf::Texture* Texture::GetTexture()
 {
-    return *mTexture;
+    return mTexture;
 }

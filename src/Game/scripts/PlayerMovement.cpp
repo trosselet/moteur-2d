@@ -24,9 +24,8 @@ void PlayerMovement::OnUpdate()
     {
         Entity* entity = ObjectFactory::CreateEntity<Entity>();
         entity->GetTransform()->position = sf::Vector2f(100.0f, 150.0f);
-        ObjectFactory::CreateComponent<SpriteRenderer>(entity, Resources::instance().TEXTURE);
+        ObjectFactory::CreateComponent<SpriteRenderer>(entity, Resources::instance().DEFAULT_SPRITE);
         ObjectFactory::CreateComponent<RigidBody2D>(entity);
-        
     }
 }
 

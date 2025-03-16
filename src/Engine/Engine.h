@@ -19,7 +19,7 @@ public:
     Engine();
     ~Engine();
 
-    static void SetRenderWindow(HINSTANCE instance);
+    static void CreateRender();
     static RenderWindow* GetRenderWindow();
     
     static GameManager* GetGameManager();

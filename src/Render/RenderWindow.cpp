@@ -7,15 +7,6 @@
 void RenderWindow::Create(std::string title, int width, int height)
 {
     mWindow = new sf::RenderWindow(sf::VideoMode(width, height), title);
-    
-    if (!mFont.loadFromFile("../../res/Fonts/arial.ttf"))
-    {
-        std::cout << "Error loading font" << "\n";
-    }
-
-    text.setPosition(10, 10);
-    text.setFont(mFont);
-    text.setFillColor(sf::Color::Red);
 }
 
 sf::RenderWindow* RenderWindow::GetWindow()

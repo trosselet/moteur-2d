@@ -8,6 +8,17 @@ Resources::~Resources()
 {
 }
 
+void Resources::Initialize()
+{
+    Resources* resources = &instance();
+    
+    resources->CreateShaders();
+    resources->CreateParticles();
+    resources->CreateTextures();
+    resources->CreateSprite();
+    resources->CreateFonts();
+}
+
 void Resources::CreateShaders()
 {
 }
@@ -18,10 +29,18 @@ void Resources::CreateParticles()
 
 void Resources::CreateTextures()
 {
-    Texture* tex = new Texture("test.png");
-    TEXTURE = new Sprite(tex);
+    DEFAULT_TEXTURE = new Texture("test.png");
 }
 
-void Resources::CreateMaterials()
+void Resources::CreateSprite()
 {
+    DEFAULT_SPRITE = new Sprite(DEFAULT_TEXTURE);
+}
+
+void Resources::CreateFonts()
+{
+    if (!DEFAULT_FONT->loadFromFile("../../res/Fonts/arial.ttf"))
+    {
+        std::cout << "Error loading font" << "\n";
+    }
 }

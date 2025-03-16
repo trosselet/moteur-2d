@@ -24,6 +24,7 @@ public:
         TAG_COUNT
     };
 
+    
     template<typename T>
     T* GetComponent();
     template<typename T>

@@ -38,7 +38,7 @@ Engine::~Engine()
 }
 
 
-void Engine::SetRenderWindow(HINSTANCE windowInstance)
+void Engine::CreateRender()
 {
     RenderWindow* window = instance().mRenderWindow;
     if (window) return;

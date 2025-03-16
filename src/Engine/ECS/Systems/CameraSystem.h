@@ -9,6 +9,8 @@ class CameraSystem
 public:
     CameraSystem(RenderWindow* window);
     ~CameraSystem() = default;
+
+    void SetActiveCamera(int activeCamera);
     
     void Update(ECS* globalEC);
 

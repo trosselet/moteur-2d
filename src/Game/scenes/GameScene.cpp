@@ -15,22 +15,15 @@ void GameScene::OnEnter()
 {
 
     srand(static_cast<unsigned int>(time(nullptr)));
-    
-    Resources* resources = &Resources::instance();
-    
-    resources->CreateShaders();
-    resources->CreateParticles();
-    resources->CreateTextures();
-    resources->CreateMaterials();
-    
+
+    Resources::instance().Initialize();
     
     Entity* player = ObjectFactory::CreateEntity<Entity>();
     player->GetTransform()->SetPosition(0.0f, 150.0f);
-    ObjectFactory::CreateComponent<SpriteRenderer>(player, Resources::instance().TEXTURE);
+    ObjectFactory::CreateComponent<SpriteRenderer>(player, Resources::instance().DEFAULT_SPRITE);
     ObjectFactory::CreateComponent<RigidBody2D>(player);
     player->SetTag(Entity::Tag::PLAYER);
-
-
+    
     ObjectFactory::AttachScript<PlayerMovement>(player);
     
     Entity* camera = ObjectFactory::CreateEntity<Entity>(player);

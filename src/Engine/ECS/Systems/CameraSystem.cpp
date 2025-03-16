@@ -5,8 +5,14 @@
 
 #include "ECS/ECS.h"
 #include "ECS/Components/Camera.h"
+#include "Render/RenderWindow.h"
 
-CameraSystem::CameraSystem(RenderWindow* window): mWindow(window), mCurrentDisplayedCamera(0) { }
+CameraSystem::CameraSystem(RenderWindow* window) : mCurrentDisplayedCamera(0), mWindow(window){ }
+
+void CameraSystem::SetActiveCamera(int activeCamera)
+{
+    mCurrentDisplayedCamera = activeCamera;
+}
 
 void CameraSystem::Update(ECS* globalEC)
 {
@@ -16,11 +22,13 @@ void CameraSystem::Update(ECS* globalEC)
         if (!globalEC->HasComponent<Camera>(i)) continue;
         Camera* camera = globalEC->GetComponent<Camera>(i);
         TRANSFORM* transform = camera->GetEntity()->GetTransform();
-        
+        sf::View view = sf::View(sf::FloatRect(transform->position.x, transform->position.y, 1600, 900));
+        mWindow->GetWindow()->setView(view);
         foundCamera = true;
+        break;
     }
     if (!foundCamera)
     {
-        std::cout << "No camera found" << std::endl;
+        std::cout << "No camera found on " << mCurrentDisplayedCamera << std::endl;
     }
 }

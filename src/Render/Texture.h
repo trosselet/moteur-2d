@@ -6,7 +6,7 @@ class Texture
 {
 public:
     Texture(std::string path);
-    sf::Texture& GetTexture();
+    sf::Texture* GetTexture();
 private:
     sf::Texture* mTexture;
 };

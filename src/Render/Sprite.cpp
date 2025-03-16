@@ -4,7 +4,7 @@
 
 Sprite::Sprite(Texture* sprite) : mSprite(new sf::Sprite())
 {
-    mSprite->setTexture(sprite->GetTexture());
+    mSprite->setTexture(*sprite->GetTexture());
 }
 
 Sprite::Sprite(sf::Sprite* sprite) : mSprite(sprite) {}
