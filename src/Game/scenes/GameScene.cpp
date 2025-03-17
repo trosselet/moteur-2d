@@ -11,6 +11,7 @@
 
 #include "scripts/PlayerMovement.h"
 
+
 void GameScene::OnEnter()
 {
 
@@ -29,11 +30,21 @@ void GameScene::OnEnter()
     Entity* camera = ObjectFactory::CreateEntity<Entity>();
     ObjectFactory::CreateComponent<Camera>(camera);
 
-    CONSOLE_OUTPUT(L"CC" << std::endl);
+    inventory.OnStart();
+
+    inventory.DisplayInventory();
+    inventory.AddItemCount(ItemList::ARMOR, 1);
+    inventory.DisplayInventory();
+    inventory.AddItemCount(ItemList::HEALTH_POTION, 5);
+    inventory.DisplayInventory();
+    inventory.AddItemCount(ItemList::SWORD, 4);
+    inventory.DisplayInventory();
+    inventory.RemoveItemCount(ItemList::ARMOR, 1);
+    inventory.RemoveItemCount(ItemList::HEALTH_POTION, 9);
+    inventory.DisplayInventory();
     
 }
 
 void GameScene::OnUpdate()
 {
-
 }
