@@ -28,6 +28,8 @@ void GameScene::OnEnter()
     
     Entity* camera = ObjectFactory::CreateEntity<Entity>();
     ObjectFactory::CreateComponent<Camera>(camera);
+
+    CONSOLE_OUTPUT(L"CC" << std::endl);
     
 }
 
