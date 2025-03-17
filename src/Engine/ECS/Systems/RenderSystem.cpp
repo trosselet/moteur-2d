@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "RenderSystem.h"
 
+#include "CameraSystem.h"
 #include "Transform.h"
 #include "ECS/ECS.h"
 #include "../Components/SpriteRenderer.h"
@@ -11,6 +12,7 @@ RenderSystem::RenderSystem(RenderWindow* window): window(window) {}
 
 void RenderSystem::Render(ECS* globalEC)
 {
+    TRANSFORM* cameraTransform = Engine::GetCameraSystem()->GetActiveCamera();
     for (int i = 0; i < globalEC->mEntityCount; i++)
     {
         if (globalEC->HasComponent<SpriteRenderer>(i))
@@ -20,9 +22,9 @@ void RenderSystem::Render(ECS* globalEC)
             window->Draw(renderer->Image);
         } else if (globalEC->HasComponent<Image>(i))
         {
-            Image* renderer = globalEC->GetComponent<Image>(i);
-            renderer->UIImage->SetPosition(renderer->GetEntity()->GetTransform()->position);
-            window->Draw(renderer->UIImage);
+            Image* image = globalEC->GetComponent<Image>(i);
+            image->UIImage->SetPosition(cameraTransform->position);
+            window->Draw(image->UIImage);
         }
     }
 }
