@@ -30,7 +30,7 @@ void Resources::CreateParticles()
 
 void Resources::CreateTextures()
 {
-    DEFAULT_TEXTURE = new Texture("test.png");
+    DEFAULT_TEXTURE = new Texture("perso.png");
 }
 
 void Resources::CreateSprite()
