@@ -3,15 +3,12 @@
 #include <iostream>
 #include <ostream>
 
-Texture::Texture(std::string path): mTexture(new sf::Texture)
-{
-    if (mTexture->loadFromFile("../../res/Textures/" + path))
-    {
-        std::cout << "Successfully loaded " << path << "\n";
-    }
-}
+#include "Engine/Utils/Debug.h"
 
-sf::Texture* Texture::GetTexture()
+Texture::Texture(std::string path)
 {
-    return mTexture;
+    if (loadFromFile("../../res/Textures/" + path))
+    {
+        Debug::Error("La texture " + path + " was not found.");
+    }
 }
