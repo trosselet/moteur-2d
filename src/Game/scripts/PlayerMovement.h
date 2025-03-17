@@ -13,4 +13,7 @@ public:
     void OnFixedUpdate() override;
     void OnUpdate() override;
     void OnDisable() override;
+
+private:
+    sf::Vector2f movement;
 };

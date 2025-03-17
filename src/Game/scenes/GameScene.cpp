@@ -8,6 +8,7 @@
 #include "ECS/Components/Camera.h"
 #include "ECS/Components/SpriteRenderer.h"
 #include "ECS/Components/RigidBody2D.h"
+#include "ECS/Components/ui/Image.h"
 
 #include "scripts/PlayerMovement.h"
 
@@ -19,15 +20,17 @@ void GameScene::OnEnter()
     Resources::instance().Initialize();
     
     Entity* player = ObjectFactory::CreateEntity<Entity>();
-    player->GetTransform()->SetPosition(0.0f, 150.0f);
+    player->GetTransform()->SetPosition(0.0f, -500.0f);
     ObjectFactory::CreateComponent<SpriteRenderer>(player, Resources::instance().DEFAULT_SPRITE);
-    ObjectFactory::CreateComponent<RigidBody2D>(player);
     player->SetTag(Entity::Tag::PLAYER);
     
     ObjectFactory::AttachScript<PlayerMovement>(player);
     
-    Entity* camera = ObjectFactory::CreateEntity<Entity>();
+    Entity* camera = ObjectFactory::CreateEntity<Entity>(player);
     ObjectFactory::CreateComponent<Camera>(camera);
+
+    Entity* expBar = ObjectFactory::CreateEntity<Entity>();
+    ObjectFactory::CreateComponent<Image>(expBar, Resources::instance().DEFAULT_SPRITE);
     
 }
 
