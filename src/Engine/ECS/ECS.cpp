@@ -7,6 +7,7 @@
 
 #include "scripts/ScriptManager.h"
 #include "Systems/CameraSystem.h"
+#include "Systems/CollisionSystem.h"
 #include "Systems/ParticleSystem.h"
 #include "Systems/PhysicsSystem.h"
 #include "Systems/RenderSystem.h"
@@ -46,7 +47,7 @@ void ECS::FixedUpdate()
     Engine::GetScriptManager()->OnFixedUpdate();
 
     Engine::GetPhysicsSystem()->OnFixedUpdate(this);
-    //Engine::GetCollisionSystem()->OnFixedUpdate(this);
+    Engine::GetCollisionSystem()->OnFixedUpdate(this);
     
 }
 

@@ -17,6 +17,11 @@ void PlayerMovement::OnFixedUpdate()
    
 }
 
+void PlayerMovement::OnCollisionEnter(Entity* other)
+{
+    std::cout << "Collision Enter" << std::endl;
+}
+
 // TODO Passer de Engine::GetInputManager() a IsKeyJustPressed(KEY_F11)
 void PlayerMovement::OnUpdate()
 {
@@ -28,6 +33,7 @@ void PlayerMovement::OnUpdate()
         ObjectFactory::CreateComponent<RigidBody2D>(entity);
     }
 }
+
 
 void PlayerMovement::OnDisable()
 {

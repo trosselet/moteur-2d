@@ -1,10 +1,13 @@
 ﻿#pragma once
 #include "ECS/Components/Collider2D.h"
 
-class CircleCollider : Collider2D
+class CircleCollider : public Collider2D
 {
 public:
+    CircleCollider(Entity* entity, int radius);
+    void SetRadius(float radius) { mRadius = radius; }
+    float GetRadius() const { return mRadius; }
     
-    CircleCollider(int radius);
-    float radius;
+private:
+    float mRadius;
 };

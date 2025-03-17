@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "Managers/GameManager.h"
 #include "scenes/GameScene.h"
+#include "scenes/TestScene.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
@@ -12,7 +13,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
     
     Engine::CreateRender();
     
-    Engine::GetGameManager()->LaunchScene<GameScene>();
+    Engine::GetGameManager()->LaunchScene<TestScene>();
     
     return 0;
 }
