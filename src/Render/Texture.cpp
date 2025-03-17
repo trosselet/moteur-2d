@@ -5,10 +5,10 @@
 
 #include "Engine/Utils/Debug.h"
 
-Texture::Texture(std::string path)
+Texture::Texture(std::string name)
 {
-    if (loadFromFile("../../res/Textures/" + path))
+    if (loadFromFile("../../res/Textures/" + name))
     {
-        Debug::Error("La texture " + path + " was not found.");
+        Debug::Error("La texture " + name + " was not found.");
     }
 }

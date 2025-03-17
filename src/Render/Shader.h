@@ -4,6 +4,6 @@
 class Shader : public sf::Shader
 {
 public:
-    Shader(const std::filesystem::path& path, sf::Shader::Type type);
+    Shader(std::wstring path, sf::Shader::Type type);
     ~Shader() = default;
 };
