@@ -15,3 +15,8 @@ CollisionSystem& CollisionSystem::Get()
     static CollisionSystem instance;    
     return instance;
 }
+
+CollisionSystem::CheckCollision()
+{
+    
+}
