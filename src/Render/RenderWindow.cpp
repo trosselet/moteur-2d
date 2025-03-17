@@ -1,45 +1,37 @@
 ﻿#include "RenderWindow.h"
 
-#include <iostream>
-
 #include "Sprite.h"
 
-void RenderWindow::Create(std::string title, int width, int height)
-{
-    mWindow = new sf::RenderWindow(sf::VideoMode(width, height), title);
-}
-
-sf::RenderWindow* RenderWindow::GetWindow()
-{
-    return mWindow;
-}
+RenderWindow::RenderWindow(std::string title, int width, int height, uint32_t style)
+: sf::RenderWindow(sf::VideoMode(sf::Vector2u(width, height)), title, style)
+{}
 
 void RenderWindow::BeginFrame()
 {
-    mWindow->clear(sf::Color::Black);
+    clear(sf::Color::Black);
 }
 
 void RenderWindow::Draw(Sprite* sprite)
 {
-    mWindow->draw(*sprite->GetSprite());
+    draw(*sprite->GetSprite());
 }
 
 void RenderWindow::Draw(const sf::Text* text)
 {
-    mWindow->draw(*text);
+    draw(*text);
 }
 
 void RenderWindow::EndFrame()
 {
-    mWindow->display();
+    display();
 }
 
 int RenderWindow::GetWindowWidth()
 {
-    return static_cast<int>(mWindow->getSize().x);
+    return static_cast<int>(getSize().x);
 }
 
 int RenderWindow::GetWindowHeight()
 {
-    return static_cast<int>(mWindow->getSize().y);
+    return static_cast<int>(getSize().y);
 }

@@ -1,18 +1,14 @@
 ﻿#pragma once
 
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "Sprite.h"
 
-class RenderWindow final
+class RenderWindow final : public sf::RenderWindow
 {
 public:
-    RenderWindow() = default;
-    
+    RenderWindow(std::string title, int width, int height, uint32_t style = sf::Style::Default);
     void Create(std::string title, int width, int height);
-    sf::RenderWindow* GetWindow();
 
     void BeginFrame();
     void Draw(Sprite* sprite);
@@ -21,9 +17,4 @@ public:
     
     int GetWindowWidth();
     int GetWindowHeight();
-
-private:
-    sf::Text text;
-    sf::Font mFont;
-    sf::RenderWindow* mWindow;
 };

@@ -2,9 +2,8 @@
 
 #include "Texture.h"
 
-Sprite::Sprite(Texture* sprite) : mSprite(new sf::Sprite())
+Sprite::Sprite(Texture* sprite) : mSprite(new sf::Sprite(*sprite->GetTexture()))
 {
-    mSprite->setTexture(*sprite->GetTexture());
 }
 
 Sprite::Sprite(sf::Sprite* sprite) : mSprite(sprite) {}
@@ -27,7 +26,7 @@ void Sprite::SetAlpha(uint8_t alpha)
 Sprite* Sprite::Cut(int x, int y, int width, int height)
 {
     sf::Sprite* part = new sf::Sprite(*mSprite);
-    part->setTextureRect(sf::IntRect(x, y, width, height));
-    part->scale(1, 1);
+    part->setTextureRect(sf::IntRect(sf::Vector2i(x, y), sf::Vector2i(width, height)));
+    part->scale(sf::Vector2f(1.0f, 1.0f));
     return new Sprite(part);
 }

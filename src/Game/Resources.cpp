@@ -39,8 +39,5 @@ void Resources::CreateSprite()
 
 void Resources::CreateFonts()
 {
-    if (!DEFAULT_FONT->loadFromFile("../../res/Fonts/arial.ttf"))
-    {
-        std::cout << "Error loading font" << "\n";
-    }
+    DEFAULT_FONT = new sf::Font("../../res/Fonts/arial.ttf");
 }

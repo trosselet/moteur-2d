@@ -6,7 +6,7 @@ RigidBody2D::RigidBody2D(Entity* entity, bool UsingGravity, float nMass, float n
 {
     mVelocity = {0.0f, 0.0f};
     mMass = nMass;
-    mGravity = 9.81f;
+    mGravity = -9.81f;
     UseGravity = UsingGravity;
     mDamping = nDamping;
     mWidth = 2.0f;
