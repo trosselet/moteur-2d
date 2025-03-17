@@ -43,7 +43,9 @@ enum ItemList
 	WOOD3,
 	STONE1,
 	STONE2,
-	STONE3
+	STONE3,
+
+	COUNT_ITEM
 };
 
 struct Item 
@@ -52,8 +54,8 @@ struct Item
 	unsigned int actualCount = 0;
 	unsigned int maxCount = 0;
 	bool isActive = false;
-	EBonus bonus = EBonus::NONE_BONUS;
-	EMalus malus = EMalus::NONE_MALUS;
+	EBonus bonus = NONE_BONUS;
+	EMalus malus = NONE_MALUS;
 };
 
 class Inventory : public IScript
@@ -76,7 +78,7 @@ private:
 	void UpdateItemState(int id);
 
 private:
-	std::array<Item, 13> items;
+	std::array<Item, COUNT_ITEM> items;
 };
 
 
