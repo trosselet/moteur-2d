@@ -22,8 +22,9 @@ void CameraSystem::Update(ECS* globalEC)
         if (!globalEC->HasComponent<Camera>(i)) continue;
         Camera* camera = globalEC->GetComponent<Camera>(i);
         TRANSFORM* transform = camera->GetEntity()->GetTransform();
-        sf::View view = sf::View(sf::FloatRect(transform->position.x, transform->position.y, 1600, 900));
-        mWindow->GetWindow()->setView(view);
+        
+        sf::View view = sf::View(sf::FloatRect(transform->position, sf::Vector2f(1600, 900)));
+        mWindow->setView(view);
         foundCamera = true;
         break;
     }

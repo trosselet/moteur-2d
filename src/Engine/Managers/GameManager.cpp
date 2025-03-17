@@ -40,16 +40,13 @@ void GameManager::Run()
 
 void GameManager::HandleInput()
 {
-
-    sf::Event eventHandler;
-    while (Engine::GetRenderWindow()->GetWindow()->pollEvent(eventHandler))
+    
+    while (const std::optional<sf::Event> event = Engine::GetRenderWindow()->pollEvent())
     {
-        switch (eventHandler.type)
+        if (event->is<sf::Event::Closed>() || isKeyPressed(sf::Keyboard::Key::Escape))
         {
-        case sf::Event::Closed:
             IsStopped = true;
-            default:
-                break;
+            Engine::GetRenderWindow()->close();
         }
     }
 }

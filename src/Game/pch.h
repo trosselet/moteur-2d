@@ -1,6 +1,9 @@
 #ifndef PCH_H
 #define PCH_H
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
 #include "Render/Texture.h"
 #include "Render/Sprite.h"
 #include "Render/RenderWindow.h"
