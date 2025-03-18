@@ -13,7 +13,14 @@ class MusicScript : public IScript
     struct BeatCircle
     {
         sf::CircleShape shape;
-        float beatTime;
+        float spawnTime;
+    };
+
+    struct NoteData
+    {
+        int x;
+        int y;
+        float time;
     };
 
 public:
@@ -25,19 +32,22 @@ public:
     void OnDisable() override;
 
     void OnRender(RenderWindow* window) override;
+    void LoadNotesFromFile(const std::string& filename);
 
 private:
-    sf::Vector2f movement;
-
-    float BPM = 173.0f;
+    float BPM = 200.f;
     float SECONDS_PER_BEAT = 60.0f / BPM;
     const float TIMING_WINDOW = 0.055f;
     const float FALL_SPEED = 100.0f;
-	const float AR = 10.0f;
+	const float AR = 8.0f;
+    bool musicStarted;
+    float firstNote;
+
+    sf::Vector2f movement;
     sf::Clock beatClock;
 	sf::Music music;
-
     std::vector<BeatCircle> fallingCircles;
+    std::vector<NoteData> noteDataList;
     sf::RectangleShape hitRect;
     sf::RenderWindow* window = nullptr;
 };
