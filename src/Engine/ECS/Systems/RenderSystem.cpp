@@ -36,7 +36,6 @@ void RenderSystem::Render(ECS* globalEC)
         if(globalEC->HasComponent<Collider2D>(i))
         {
             Collider2D* coll = globalEC->GetComponent<Collider2D>(i);
-            coll->GetShape()->setOrigin({0.5f,0.5f});
             window->Draw(coll->GetShape());
         }
     }

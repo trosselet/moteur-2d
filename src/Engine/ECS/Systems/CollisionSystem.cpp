@@ -1,6 +1,11 @@
 ﻿#include "pch.h"
 #include "CollisionSystem.h"
 
+#include "ECS/Components/PhysicsMaterial.h"
+#include "ECS/Components/RigidBody2D.h"
+#include "scripts/ScriptManager.h"
+#include "Utils/Profiler.h"
+
 int MAX_ITERATIONS = 5;
 float PENETRATION_SLACK = 0.015f;
 
@@ -92,8 +97,8 @@ void CollisionSystem::UpdateColliders(ECS* globalEC)
 
         Collider2D* collider = globalEC->GetComponent<Collider2D>(i);
         Entity* entity = collider->GetEntity();
-        collider->SetCenter(entity->GetTransform()->position);
-        collider->GetShape()->setPosition(collider->GetCenter());
+        collider->SetOrigin(entity->GetTransform()->position);
+        collider->GetShape()->setPosition(collider->GetOrigin());
 
         mGrid->UpdateEntity(entity);
     }
@@ -135,7 +140,7 @@ void CollisionSystem::ResolvePositions()
             sf::Vector2f correction = collisionNormal * (correctionAmount * ratio1 * mFixedTimestep);
             pos = pos - correction;
             entity1->GetTransform()->position = pos;
-            collider1->SetCenter(pos);
+            collider1->SetOrigin(pos);
         }
         else if (!collider1->IsStatic())
         {
@@ -143,7 +148,7 @@ void CollisionSystem::ResolvePositions()
             sf::Vector2f correction = collisionNormal * (correctionAmount * mFixedTimestep);
             pos = pos - correction;
             entity1->GetTransform()->position = pos;
-            collider1->SetCenter(pos);
+            collider1->SetOrigin(pos);
         }
         
         if (rb2 && !collider2->IsStatic())
@@ -153,7 +158,7 @@ void CollisionSystem::ResolvePositions()
             sf::Vector2f correction = collisionNormal * (correctionAmount * ratio2 * mFixedTimestep);
             pos = pos - correction;
             entity2->GetTransform()->position = pos;
-            collider2->SetCenter(pos);
+            collider2->SetOrigin(pos);
         }
         else if (!collider2->IsStatic())
         {
@@ -161,7 +166,7 @@ void CollisionSystem::ResolvePositions()
             sf::Vector2f correction = collisionNormal * (correctionAmount * mFixedTimestep);
             pos = pos - correction;
             entity2->GetTransform()->position = pos;
-            collider2->SetCenter(pos);
+            collider2->SetOrigin(pos);
         }
     }
 }
