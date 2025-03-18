@@ -28,21 +28,7 @@ void GameScene::OnEnter()
     ObjectFactory::AttachScript<PlayerMovement>(player);
     
     Entity* camera = ObjectFactory::CreateEntity<Entity>();
-    ObjectFactory::CreateComponent<Camera>(camera);
-
-    inventory.OnStart();
-
-    inventory.DisplayInventory();
-    inventory.AddItemCount(ItemList::ARMOR, 1);
-    inventory.DisplayInventory();
-    inventory.AddItemCount(ItemList::HEALTH_POTION, 5);
-    inventory.DisplayInventory();
-    inventory.AddItemCount(ItemList::SWORD, 4);
-    inventory.DisplayInventory();
-    inventory.RemoveItemCount(ItemList::ARMOR, 1);
-    inventory.RemoveItemCount(ItemList::HEALTH_POTION, 9);
-    inventory.DisplayInventory();
-    
+    ObjectFactory::CreateComponent<Camera>(camera);    
 }
 
 void GameScene::OnUpdate()
