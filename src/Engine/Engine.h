@@ -9,7 +9,6 @@ class PhysicsSystem;
 class CameraSystem;
 class RenderSystem;
 class ECS;
-class InputManager;
 class GameManager;
 class ObjectFactory;
 
@@ -23,7 +22,6 @@ public:
     static RenderWindow* GetRenderWindow();
     
     static GameManager* GetGameManager();
-    static InputManager* GetInputManager();
     
     static float GetDeltaTime();
 
@@ -51,7 +49,6 @@ private:
     CameraSystem* mCameraSystem;
     ParticleSystem* mParticleSystem;
     ScriptManager* mScriptManager;
-    InputManager* mInputManager;
 
     RenderWindow* mRenderWindow;
 

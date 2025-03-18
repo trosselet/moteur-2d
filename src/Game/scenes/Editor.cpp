@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "GameScene.h"
+﻿#include "pch.h"
+#include "Editor.h"
 
 #include "Resources.h"
 #include "ECS/Entity.h"
@@ -9,14 +9,17 @@
 #include "ECS/Components/SpriteRenderer.h"
 #include "ECS/Components/RigidBody2D.h"
 #include "ECS/Components/ui/Image.h"
-
 #include "scripts/PlayerMovement.h"
+#include "scripts/tilemap/TilemapEditor.h"
 
-
-void GameScene::OnEnter()
+void Editor::OnEnter()
 {
 
-    srand(static_cast<unsigned int>(time(nullptr)));
+    Entity* gridContainer = ObjectFactory::CreateEntity<Entity>();
+    gridContainer->GetTransform()->SetPosition(0.0f, 0.0f);
+    ObjectFactory::CreateComponent<SpriteRenderer>(gridContainer, Resources::instance().DEFAULT_SPRITE);
+
+    ObjectFactory::AttachScript<TilemapEditor>(gridContainer);
     
     Entity* player = ObjectFactory::CreateEntity<Entity>();
     player->GetTransform()->SetPosition(0.0f, -500.0f);
@@ -27,12 +30,10 @@ void GameScene::OnEnter()
     
     Entity* camera = ObjectFactory::CreateEntity<Entity>(player);
     ObjectFactory::CreateComponent<Camera>(camera);
-
-    Entity* expBar = ObjectFactory::CreateEntity<Entity>();
-    ObjectFactory::CreateComponent<Image>(expBar, Resources::instance().DEFAULT_SPRITE);
     
 }
 
-void GameScene::OnUpdate()
+void Editor::Render()
 {
+    
 }

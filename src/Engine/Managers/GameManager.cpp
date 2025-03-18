@@ -2,7 +2,6 @@
 #include "GameManager.h"
 
 #include "GameTimer.h"
-#include "InputManager.h"
 #include "ECS/ECS.h"
 #include "Render/RenderWindow.h"
 #include "Utils/Debug.h"
@@ -43,11 +42,17 @@ void GameManager::HandleInput()
     
     while (const std::optional<sf::Event> event = Engine::GetRenderWindow()->pollEvent())
     {
-        if (event->is<sf::Event::Closed>() || isKeyPressed(sf::Keyboard::Key::Escape))
+        if (event->is<sf::Event::Closed>())
         {
             IsStopped = true;
             Engine::GetRenderWindow()->close();
         }
+    }
+
+    if (isKeyPressed(sf::Keyboard::Key::Escape))
+    {
+        IsStopped = true;
+        Engine::GetRenderWindow()->close();
     }
 }
 
@@ -86,10 +91,6 @@ void GameManager::Update()
     mTimer.UpdateTime();
     Debug::Log("FPS " + std::to_string(mTimer.GetFPS()));
     Debug::Log("Entity count " + std::to_string(Engine::GetECS()->mEntityCount));
-
-    mProfiler->NewTask("Input update");
-    Engine::GetInputManager()->Update();
-    mProfiler->EndTask();
 
     mProfiler->NewTask("Update ECS");
     Engine::GetECS()->Update();
