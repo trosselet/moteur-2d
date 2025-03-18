@@ -5,7 +5,7 @@
 
 #include "Resources.h"
 
-TilemapEditor::TilemapEditor() : mSelector({50, 50}), mTiles(nullptr), mOffset({0, 0})
+TilemapEditor::TilemapEditor() : mSelector({50, 50}), mTiles(), mOffset({0, 0})
 {
 }
 
@@ -19,25 +19,15 @@ void TilemapEditor::OnStart()
 
     mSelector.setFillColor(sf::Color::Red);
 
-    mTiles = new Tile[totalTile];
-    for (int x = 0; x < tilePerRow; x++)
-    {
-        for (int y = 0; y < tilePerRow; y++)
-        {
-            mTiles[tilePerRow*y+x].texture = nullptr;
-            mTiles[tilePerRow*y+x].position = {x, y};
-        }
-    }
-
     for (int x = 0; x <= tilePerRow; x++) {
         int tileX = x * tileSize;
         mGridVertices.append(sf::Vertex(sf::Vector2f(tileX, 0), sf::Color::White));
-        mGridVertices.append(sf::Vertex(sf::Vector2f(tileX+5, 0), sf::Color::White));
-        mGridVertices.append(sf::Vertex(sf::Vector2f(tileX+5, mapSize), sf::Color::White));
+        mGridVertices.append(sf::Vertex(sf::Vector2f(tileX+2, 0), sf::Color::White));
+        mGridVertices.append(sf::Vertex(sf::Vector2f(tileX+2, mapSize), sf::Color::White));
             
-        mGridVertices.append(sf::Vertex(sf::Vector2f(tileX, mapSize), sf::Color::Red));
-        mGridVertices.append(sf::Vertex(sf::Vector2f(tileX+5, mapSize), sf::Color::Red));
-        mGridVertices.append(sf::Vertex(sf::Vector2f(tileX+5, 0), sf::Color::Red));
+        mGridVertices.append(sf::Vertex(sf::Vector2f(tileX, mapSize), sf::Color::White));
+        mGridVertices.append(sf::Vertex(sf::Vector2f(tileX+2, mapSize), sf::Color::White));
+        mGridVertices.append(sf::Vertex(sf::Vector2f(tileX, 0), sf::Color::White));
 
     }
     
@@ -45,10 +35,10 @@ void TilemapEditor::OnStart()
         int tileY = y * tileSize;
         mGridVertices.append(sf::Vertex(sf::Vector2f(0, tileY), sf::Color::White));
         mGridVertices.append(sf::Vertex(sf::Vector2f(mapSize, tileY), sf::Color::White));
-        mGridVertices.append(sf::Vertex(sf::Vector2f(mapSize, tileY+5), sf::Color::White));
+        mGridVertices.append(sf::Vertex(sf::Vector2f(mapSize, tileY+2), sf::Color::White));
             
-        mGridVertices.append(sf::Vertex(sf::Vector2f(0, tileY+5), sf::Color::White));
-        mGridVertices.append(sf::Vertex(sf::Vector2f(mapSize, tileY+5), sf::Color::White));
+        mGridVertices.append(sf::Vertex(sf::Vector2f(0, tileY+2), sf::Color::White));
+        mGridVertices.append(sf::Vertex(sf::Vector2f(mapSize, tileY+2), sf::Color::White));
         mGridVertices.append(sf::Vertex(sf::Vector2f(0, tileY), sf::Color::White));
 
     }
@@ -56,36 +46,53 @@ void TilemapEditor::OnStart()
 
 void TilemapEditor::OnFixedUpdate()
 {
-    mTransform->SetPosition(mTransform->position + movement);
-    movement = sf::Vector2f(0, 0);
+    if (movement.x > tileSize)
+    {
+        mTransform->SetPosition(mTransform->position + sf::Vector2f({tileSize+.0f, 0.0f}));
+        movement = {0, 0};
+    } else if (movement.x < -tileSize)
+    {
+        mTransform->SetPosition(mTransform->position + sf::Vector2f({-tileSize+.0f, 0.0f}));
+        movement = {0, 0};
+    } else if (movement.y > tileSize) {
+        mTransform->SetPosition(mTransform->position + sf::Vector2f({0.f, tileSize+.0f}));
+        movement = {0, 0};
+    } else if (movement.y < -tileSize)
+    {
+        mTransform->SetPosition(mTransform->position + sf::Vector2f({0.f, -tileSize+.0f}));
+        movement = {0, 0};
+    }
 }
 
 void TilemapEditor::OnUpdate()
 {
-    mCurrentCase.x = (mousePosition.x/tileSize) * tileSize + 5;
-    mCurrentCase.y= (mousePosition.y/tileSize) * tileSize + 5;
-    Debug::Log("X" + std::to_string(mTransform->position.x) + " Y " + std::to_string(mTransform->position.y));
-
+    mCurrentCase.x = (mousePosition.x/tileSize) * tileSize + mTransform->position.x + 2;
+    mCurrentCase.y= (mousePosition.y/tileSize) * tileSize + mTransform->position.y + 2;
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
     {
-        mTiles[tilePerRow * mCurrentCase.y + mCurrentCase.x].texture = Resources::instance().DEFAULT_SPRITE;
+        int index = tilePerRow * (mCurrentCase.y/tileSize-2) + (mCurrentCase.x/tileSize-2);
+       if (!mUsedTile.contains(index))
+       {
+           mUsedTile.emplace(index);
+           mTiles.push_back(Tile(Resources::instance().DEFAULT_SPRITE, sf::Vector2f(mCurrentCase)));
+       }
     }
 
     if (isKeyPressed(sf::Keyboard::Key::D))
     {
-        movement += mTransform->right * 50.0f;
+        movement += mTransform->right * Engine::GetDeltaTime() * 1000.0f;
     }
     if (isKeyPressed(sf::Keyboard::Key::Q))
     {
-        movement -= mTransform->right * 50.0f;
+        movement -= mTransform->right * Engine::GetDeltaTime() * 1000.0f;
     }
     if (isKeyPressed(sf::Keyboard::Key::S))
     {
-        movement += mTransform->up * 50.0f;
+        movement += mTransform->up * Engine::GetDeltaTime() * 1000.0f;
     }
     if (isKeyPressed(sf::Keyboard::Key::Z))
     {
-        movement -= mTransform->up * 50.0f;
+        movement -= mTransform->up * Engine::GetDeltaTime() * 1000.0f;
     }
     
 }
@@ -94,15 +101,16 @@ void TilemapEditor::OnRender(RenderWindow* window)
 {
     
     mousePosition = sf::Mouse::getPosition(*window);
-    mSelector.setPosition(sf::Vector2f(mCurrentCase) + mTransform->position);
+    mSelector.setPosition(sf::Vector2f(mCurrentCase));
     
     window->draw(mSelector);
     window->draw(mGridVertices);
 
-    for (int i = 0; i < totalTile; i++)
+    Debug::Log("Tile number " + std::to_string(mTiles.size()));
+    for (Tile tile : mTiles)
     {
-        if (mTiles[i].texture)
-            window->Draw(mTiles[i].texture);
+        tile.texture->setPosition(tile.position);
+        window->Draw(tile.texture);
     }
     
 }

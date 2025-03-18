@@ -1,10 +1,11 @@
 ﻿#pragma once
 #include "scripts/Script.h"
+#include <set>
 
 struct Tile
 {
     Sprite* texture;
-    sf::Vector2i position;
+    sf::Vector2f position;
 };
 
 class TilemapEditor : public IScript
@@ -16,7 +17,8 @@ class TilemapEditor : public IScript
     
     sf::RectangleShape mSelector;
     sf::VertexArray mGridVertices;
-    Tile* mTiles;
+    std::vector<Tile> mTiles;
+    std::set<int> mUsedTile;
 
     sf::Vector2i mCurrentCase;
     sf::Vector2i mOffset;
