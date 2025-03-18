@@ -21,15 +21,17 @@ void TestScene::OnEnter()
     player = ObjectFactory::CreateEntity<Entity>();
     player->GetTransform()->SetPosition(0.0f, 150.0f);
     ObjectFactory::CreateComponent<SpriteRenderer>(player, Resources::instance().DEFAULT_SPRITE);
-    ObjectFactory::CreateComponent<CircleCollider>(player, 100.0f);
-    ObjectFactory::CreateComponent<RigidBody2D>(player);
+    ObjectFactory::CreateComponent<CircleCollider>(player, 10.0f);
+    player->SetTag(Entity::Tag::PLAYER);
+    
+    ObjectFactory::AttachScript<PlayerMovement>(player);
+
     
     Entity* other = ObjectFactory::CreateEntity<Entity>();
     other->GetTransform()->SetPosition(0.0f,250.0f);
     ObjectFactory::CreateComponent<AABBCollider>(other, 0.0f,250.0f,1920.0f,2000.0f);
-    player->SetTag(Entity::Tag::PLAYER);
-    
-    ObjectFactory::AttachScript<PlayerMovement>(player);
+    other->GetComponent<AABBCollider>()->SetStatic(true);
+
     
     Entity* camera = ObjectFactory::CreateEntity<Entity>();
     ObjectFactory::CreateComponent<Camera>(camera);

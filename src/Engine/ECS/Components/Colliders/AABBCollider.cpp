@@ -8,5 +8,4 @@ AABBCollider::AABBCollider(Entity* entity, float xMin, float yMin, float width, 
     mHeight = height;
     mXMin = xMin;
     mYMin = yMin;
-    mCenter = { width * 0.5f, height * 0.5f };
 }

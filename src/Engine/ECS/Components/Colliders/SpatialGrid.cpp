@@ -38,6 +38,11 @@ void SpatialGrid::UpdateEntity(Entity* entity)
     {
         auto& oldCell = mCells[oldCoords];
         oldCell.erase(std::remove(oldCell.begin(), oldCell.end(), entity), oldCell.end());
+
+        if(oldCell.empty())
+        {
+            mCells.erase(oldCoords);
+        }
         
         collider->SetLastGridPosition(newCoords);
 

@@ -8,7 +8,7 @@
 #include "Utils/Profiler.h"
 
 int MAX_ITERATIONS = 5;
-float PENETRATION_SLACK = 0.25f;
+float PENETRATION_SLACK = 0.015f;
 
 CollisionSystem& CollisionSystem::Get()
 {
@@ -18,7 +18,7 @@ CollisionSystem& CollisionSystem::Get()
 
 CollisionSystem::CollisionSystem()
 {
-    mGrid = new SpatialGrid(25.0f, -4,-4,4,4);
+    mGrid = new SpatialGrid(100.0f, 0,0,4,4);
 }
 
 
@@ -90,7 +90,6 @@ void CollisionSystem::ProcessCollision(Collider2D* collider1, Collider2D* collid
     }
 }
 
-//TODO More Opti
 void CollisionSystem::UpdateColliders(ECS* globalEC)
 {
     for (int i = 0; i < globalEC->mEntityCount; i++)
@@ -122,10 +121,13 @@ void CollisionSystem::ResolvePositions()
         RigidBody2D* rb2 = entity2->HasComponent<RigidBody2D>() ? entity2->GetComponent<RigidBody2D>() : nullptr;
         
         float totalInvMass = 0.0f;
-        if (rb1 /*&& !collider1->IsStatic()*/ && !collider1->IsTrigger()) totalInvMass += rb1->GetInvMass();
-        if (rb2 /*&& !collider2->IsStatic()*/ && !collider2->IsTrigger()) totalInvMass += rb2->GetInvMass();
+        if (rb1 && !collider1->IsStatic() && !collider1->IsTrigger()) totalInvMass += rb1->GetInvMass();
+        if (rb2 && !collider2->IsStatic() && !collider2->IsTrigger()) totalInvMass += rb2->GetInvMass();
         
-        if (totalInvMass <= 0.0f) continue;
+        if (totalInvMass <= 0.0f)
+        {
+            totalInvMass = 1.0f;
+        };
         
         float correctionAmount = manifold.penetrationDepth / totalInvMass;
         
@@ -136,7 +138,7 @@ void CollisionSystem::ResolvePositions()
             float ratio1 = rb1->GetInvMass() / totalInvMass;
             sf::Vector2f pos = entity1->GetTransform()->position;
             sf::Vector2f correction = collisionNormal * (correctionAmount * ratio1 * mFixedTimestep);
-            pos = pos + correction;
+            pos = pos - correction;
             entity1->GetTransform()->position = pos;
             collider1->SetCenter(pos);
         }
@@ -144,25 +146,25 @@ void CollisionSystem::ResolvePositions()
         {
             sf::Vector2f pos = entity1->GetTransform()->position;
             sf::Vector2f correction = collisionNormal * (correctionAmount * mFixedTimestep);
-            pos = pos + correction;
+            pos = pos - correction;
             entity1->GetTransform()->position = pos;
             collider1->SetCenter(pos);
         }
         
-        if (rb2 && !collider1->IsStatic())
+        if (rb2 && !collider2->IsStatic())
         {
-            float ratio1 = rb2->GetInvMass() / totalInvMass;
+            float ratio2 = rb2->GetInvMass() / totalInvMass;
             sf::Vector2f pos = entity2->GetTransform()->position;
-            sf::Vector2f correction = collisionNormal * (correctionAmount * ratio1 * mFixedTimestep);
-            pos = pos + correction;
+            sf::Vector2f correction = collisionNormal * (correctionAmount * ratio2 * mFixedTimestep);
+            pos = pos - correction;
             entity2->GetTransform()->position = pos;
             collider2->SetCenter(pos);
         }
-        else if (!collider1->IsStatic())
+        else if (!collider2->IsStatic())
         {
             sf::Vector2f pos = entity2->GetTransform()->position;
             sf::Vector2f correction = collisionNormal * (correctionAmount * mFixedTimestep);
-            pos = pos + correction;
+            pos = pos - correction;
             entity2->GetTransform()->position = pos;
             collider2->SetCenter(pos);
         }
@@ -198,7 +200,7 @@ void CollisionSystem::ResolveVelocities()
         
         PhysicsMaterial* pm1 = entity1->GetComponent<PhysicsMaterial>();
         PhysicsMaterial* pm2 = entity2->GetComponent<PhysicsMaterial>();
-                                
+        
         float elasticity1 = pm1->mElasticity;
         float elasticity2 = pm2->mElasticity;
         
@@ -208,7 +210,10 @@ void CollisionSystem::ResolveVelocities()
         if (rb1 && !collider1->IsStatic() && !collider1->IsTrigger()) totalInvMass += rb1->GetInvMass();
         if (rb2 && !collider2->IsStatic() && !collider2->IsTrigger()) totalInvMass += rb2->GetInvMass();
         
-        if (totalInvMass <= 0.0f) continue;
+        if (totalInvMass <= 0.0f)
+        {
+            totalInvMass = 1.0f;
+        }
         
         float j = -(1.0f + e) * velAlongNormal;
         j /= totalInvMass;
@@ -255,6 +260,9 @@ void CollisionSystem::OnFixedUpdate(ECS* globalEC)
 {
     mManifoldList.clear();
     mCurrentCollisions.clear();
+    Profiler collisionaProfiler;
+    
+    collisionaProfiler.NewTask("OnFixedUpdate");
     
     UpdateColliders(globalEC);
     
@@ -296,6 +304,7 @@ void CollisionSystem::OnFixedUpdate(ECS* globalEC)
     }
     
     HandleOnEvents();
+    collisionaProfiler.EndTask();
 
     mPreviousCollisions = mCurrentCollisions;
 

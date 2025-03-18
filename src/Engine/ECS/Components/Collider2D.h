@@ -3,6 +3,8 @@
 #include "Colliders/CollisionManifold.h"
 #include "Colliders/SpatialGrid.h"
 
+struct PhysicsMaterial;
+
 class Collider2D : public Component
 {
 public:
@@ -22,7 +24,8 @@ public:
     void SetCenter(sf::Vector2f newPos) { mCenter = newPos; }
     void SetType(ColliderType nType) { mColliderType = nType; }
     void SetLastGridPosition(const CellCoords& newPosition) { mLastGridPosition = newPosition; }
-    
+    void SetTrigger(bool trig) { mIsTrigger = trig;}
+    void SetStatic(bool stat) { mIsStatic = stat; }
 #pragma region Getters
 
     bool IsTrigger() const { return mIsTrigger; }
@@ -31,6 +34,7 @@ public:
     int GetBitmask() override;
     ColliderType GetColliderType() const { return mColliderType; }
     CellCoords GetLastGridPosition() const {return mLastGridPosition; }
+    
 #pragma endregion
     
 #pragma region CollisionManifold Generation

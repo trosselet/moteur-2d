@@ -32,6 +32,12 @@ void PlayerMovement::OnUpdate()
         ObjectFactory::CreateComponent<SpriteRenderer>(entity, Resources::instance().DEFAULT_SPRITE);
         ObjectFactory::CreateComponent<RigidBody2D>(entity);
     }
+
+    if(Engine::GetInputManager()->IsKeyPressed(KEY_S))
+    {
+        sf::Vector2f newPos = {owner->GetTransform()->position.x, owner->GetTransform()->position.y + 50 * Engine::GetDeltaTime()};
+        owner->GetTransform()->SetPosition(newPos);
+    }
 }
 
 

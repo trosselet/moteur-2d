@@ -1,8 +1,11 @@
 ﻿#include "pch.h"
 #include "Collider2D.h"
 
+#include "ObjectFactory.h"
 #include "Colliders/AABBCollider.h"
 #include "Colliders/CircleCollider.h"
+#include "PhysicsMaterial.h"
+
 
 Collider2D::Collider2D(Entity* entity) : Component(entity)
 {
@@ -11,6 +14,8 @@ Collider2D::Collider2D(Entity* entity) : Component(entity)
     mCenter = entity->GetTransform()->position;
     mIsTrigger = false;
     mIsStatic = false;
+
+    ObjectFactory::CreateComponent<PhysicsMaterial>(entity);
 }
 
 int Collider2D::GetBitmask()
