@@ -1,7 +1,7 @@
 #ifndef PCH_H
 #define PCH_H
 
-#define DEEP_PROFILER
+//#define DEEP_PROFILER
 #define ENTITY_BASE_MAXIMUM 1024;
 #define FIXED_DT 0.008333f
 

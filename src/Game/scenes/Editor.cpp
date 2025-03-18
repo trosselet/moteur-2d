@@ -20,15 +20,16 @@ void Editor::OnEnter()
     ObjectFactory::CreateComponent<SpriteRenderer>(gridContainer, Resources::instance().DEFAULT_SPRITE);
 
     ObjectFactory::AttachScript<TilemapEditor>(gridContainer);
+    ObjectFactory::AttachScript<PlayerMovement>(gridContainer);
     
     Entity* player = ObjectFactory::CreateEntity<Entity>();
-    player->GetTransform()->SetPosition(0.0f, -500.0f);
+    player->GetTransform()->SetPosition(0.0f, 0.0f);
     ObjectFactory::CreateComponent<SpriteRenderer>(player, Resources::instance().DEFAULT_SPRITE);
     player->SetTag(Entity::Tag::PLAYER);
     
     ObjectFactory::AttachScript<PlayerMovement>(player);
     
-    Entity* camera = ObjectFactory::CreateEntity<Entity>(player);
+    Entity* camera = ObjectFactory::CreateEntity<Entity>(gridContainer);
     ObjectFactory::CreateComponent<Camera>(camera);
     
 }

@@ -15,5 +15,6 @@ public:
     void OnDisable() override;
 
 private:
+    TRANSFORM* mTransform;
     sf::Vector2f movement;
 };
