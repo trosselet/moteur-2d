@@ -11,6 +11,7 @@
 #include "ECS/Components/ui/Image.h"
 
 #include "scripts/PlayerMovement.h"
+#include "scripts/MusicScript.h"
 
 void GameScene::OnEnter()
 {
@@ -18,10 +19,11 @@ void GameScene::OnEnter()
     srand(static_cast<unsigned int>(time(nullptr)));
     
     Entity* player = ObjectFactory::CreateEntity<Entity>();
-    player->GetTransform()->SetPosition(0.0f, -500.0f);
+    player->GetTransform()->SetPosition(0.0f, 0.0f);
     ObjectFactory::CreateComponent<SpriteRenderer>(player, Resources::instance().DEFAULT_SPRITE);
     player->SetTag(Entity::Tag::PLAYER);
     
+    ObjectFactory::AttachScript<MusicScript>(player);
     ObjectFactory::AttachScript<PlayerMovement>(player);
     
     Entity* camera = ObjectFactory::CreateEntity<Entity>(player);

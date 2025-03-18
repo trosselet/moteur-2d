@@ -2,7 +2,6 @@
 #define PCH_H
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 
 #include "Render/Texture.h"
 #include "Render/Sprite.h"
@@ -13,5 +12,8 @@
 
 #include "Utils/Debug.h"
 #include "Utils/Profiler.h"
+
+#include <sstream>
+#define CONSOLE_OUTPUT(s) { std::wostringstream os_; os_ << s; OutputDebugStringW(os_.str().c_str());};
 
 #endif
