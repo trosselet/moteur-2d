@@ -26,6 +26,7 @@ public:
     void SetLastGridPosition(const CellCoords& newPosition) { mLastGridPosition = newPosition; }
     void SetTrigger(bool trig) { mIsTrigger = trig;}
     void SetStatic(bool stat) { mIsStatic = stat; }
+    
 #pragma region Getters
 
     bool IsTrigger() const { return mIsTrigger; }
@@ -34,7 +35,7 @@ public:
     int GetBitmask() override;
     ColliderType GetColliderType() const { return mColliderType; }
     CellCoords GetLastGridPosition() const {return mLastGridPosition; }
-    
+    sf::Shape* GetShape() const { return mpShape; }
 #pragma endregion
     
 #pragma region CollisionManifold Generation
@@ -54,4 +55,5 @@ protected:
     sf::Vector2f mCenter;
     CellCoords mLastGridPosition;
     ColliderType mColliderType;
+    sf::Shape* mpShape;
 };

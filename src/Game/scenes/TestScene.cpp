@@ -19,7 +19,7 @@ void TestScene::OnEnter()
     Resources::instance().Initialize();
     
     player = ObjectFactory::CreateEntity<Entity>();
-    player->GetTransform()->SetPosition(0.0f, 150.0f);
+    player->GetTransform()->SetPosition(100.0f, 100.0f);
     ObjectFactory::CreateComponent<SpriteRenderer>(player, Resources::instance().DEFAULT_SPRITE);
     ObjectFactory::CreateComponent<CircleCollider>(player, 10.0f);
     player->SetTag(Entity::Tag::PLAYER);
@@ -28,8 +28,8 @@ void TestScene::OnEnter()
 
     
     Entity* other = ObjectFactory::CreateEntity<Entity>();
-    other->GetTransform()->SetPosition(0.0f,250.0f);
-    ObjectFactory::CreateComponent<AABBCollider>(other, 0.0f,250.0f,1920.0f,2000.0f);
+    other->GetTransform()->SetPosition(250.0f,250.0f);
+    ObjectFactory::CreateComponent<AABBCollider>(other, 0.0f,0.0f,100.0f,100.0f);
     other->GetComponent<AABBCollider>()->SetStatic(true);
 
     
@@ -40,8 +40,8 @@ void TestScene::OnEnter()
 
 void TestScene::OnUpdate()
 {
-    std::cout << player->GetTransform()->position.y << std::endl;
-    std::cout << player->GetComponent<Collider2D>()->GetCenter().y << std::endl;
+    // std::cout << player->GetTransform()->position.x << std::endl;
+    // std::cout << player->GetTransform()->position.y << std::endl;
 }
 
 

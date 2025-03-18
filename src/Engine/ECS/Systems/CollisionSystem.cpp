@@ -99,6 +99,7 @@ void CollisionSystem::UpdateColliders(ECS* globalEC)
         Collider2D* collider = globalEC->GetComponent<Collider2D>(i);
         Entity* entity = collider->GetEntity();
         collider->SetCenter(entity->GetTransform()->position);
+        collider->GetShape()->setPosition(collider->GetCenter());
 
         mGrid->UpdateEntity(entity);
     }

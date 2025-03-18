@@ -35,7 +35,25 @@ void PlayerMovement::OnUpdate()
 
     if(Engine::GetInputManager()->IsKeyPressed(KEY_S))
     {
-        sf::Vector2f newPos = {owner->GetTransform()->position.x, owner->GetTransform()->position.y + 50 * Engine::GetDeltaTime()};
+        sf::Vector2f newPos = {owner->GetTransform()->position.x, owner->GetTransform()->position.y + 100 * Engine::GetDeltaTime()};
+        owner->GetTransform()->SetPosition(newPos);
+    }
+
+    if(Engine::GetInputManager()->IsKeyPressed(KEY_Z))
+    {
+        sf::Vector2f newPos = {owner->GetTransform()->position.x, owner->GetTransform()->position.y - 100 * Engine::GetDeltaTime()};
+        owner->GetTransform()->SetPosition(newPos);
+    }
+
+    if(Engine::GetInputManager()->IsKeyPressed(KEY_D))
+    {
+        sf::Vector2f newPos = {owner->GetTransform()->position.x + 100 * Engine::GetDeltaTime(), owner->GetTransform()->position.y};
+        owner->GetTransform()->SetPosition(newPos);
+    }
+
+    if(Engine::GetInputManager()->IsKeyPressed(KEY_Q))
+    {
+        sf::Vector2f newPos = {owner->GetTransform()->position.x - 100 * Engine::GetDeltaTime(), owner->GetTransform()->position.y};
         owner->GetTransform()->SetPosition(newPos);
     }
 }

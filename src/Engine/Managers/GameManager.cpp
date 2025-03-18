@@ -84,8 +84,8 @@ void GameManager::Update()
     int steps = 0;
     
     mTimer.UpdateTime();
-    Debug::Log("FPS " + std::to_string(mTimer.GetFPS()));
-    Debug::Log("Entity count " + std::to_string(Engine::GetECS()->mEntityCount));
+    // Debug::Log("FPS " + std::to_string(mTimer.GetFPS()));
+    // Debug::Log("Entity count " + std::to_string(Engine::GetECS()->mEntityCount));
 
     mProfiler->NewTask("Input update");
     Engine::GetInputManager()->Update();
