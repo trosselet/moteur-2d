@@ -5,9 +5,9 @@
 
 void MusicScript::OnStart()
 {
-    LoadNotesFromFile("../../res/Beatmaps/2.txt");
+    LoadNotesFromFile("../../res/Beatmaps/4.txt");
 
-    if (!music.openFromFile("../../res/Music/2.mp3"))
+    if (!music.openFromFile("../../res/Music/4.ogg"))
     {
         std::cerr << "Error loading musique.mp3" << std::endl;
         return;
@@ -59,11 +59,14 @@ void MusicScript::OnFixedUpdate()
 void MusicScript::OnUpdate()
 {
     float currentTime = beatClock.getElapsedTime().asSeconds();
-    float z = (800.f / (FALL_SPEED * AR)) - (firstNote / 4);
 
     if (!musicStarted)
     {
-        if (currentTime >= z)
+
+        float songOffset = (750.f / (FALL_SPEED * AR));
+		CONSOLE_OUTPUT(noteDataList[0].time << " " << songOffset << std::endl);
+
+        if (currentTime + (noteDataList[0].time / 64) >= songOffset)
         {
             music.play();
             CONSOLE_OUTPUT(currentTime << std::endl);
@@ -86,9 +89,9 @@ void MusicScript::OnUpdate()
         noteDataList.erase(noteDataList.begin());
 
         BeatCircle newCircle;
-        newCircle.shape = sf::CircleShape(30.f);
+        newCircle.shape = sf::CircleShape(25.f);
         newCircle.shape.setFillColor(sf::Color::White);
-        newCircle.shape.setPosition(sf::Vector2f(600, 0.f));
+        newCircle.shape.setPosition(sf::Vector2f(700, 0.f));
         newCircle.spawnTime = note.time;
 
         fallingCircles.push_back(newCircle);
@@ -99,7 +102,7 @@ void MusicScript::OnUpdate()
         beatCircle.shape.move(sf::Vector2f(0.f, FALL_SPEED * AR * deltaTime));
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::L))
+    if (GetAsyncKeyState('S') & 0x0001 || GetAsyncKeyState('D') & 0x0001)
     {
         for (auto it = fallingCircles.begin(); it != fallingCircles.end();)
         {
@@ -112,16 +115,18 @@ void MusicScript::OnUpdate()
             float realFallSpeed = FALL_SPEED * AR;
             float hitExpectedTime = spawnTime + (hitY / realFallSpeed);
 
-            if (std::abs(circleY - hitY) <= 100.0f )
+            if (std::abs(circleY - hitY) <= 65.0f )
             {
                 float timeDifference = std::abs(currentTime - hitExpectedTime);
                 if (timeDifference <= TIMING_WINDOW)
                 {
                     CONSOLE_OUTPUT(L"Perfect hit!" << std::endl);
+                    // ajouter des particules pour dire qu'on a  bien tapé
                 }
                 else
                 {
                     CONSOLE_OUTPUT(L"Missed! (" << timeDifference << "s off)" << std::endl);
+                    // same avec les miss 
                 }
 
                 CONSOLE_OUTPUT(circleY << " " << hitY << std::endl);
@@ -129,11 +134,16 @@ void MusicScript::OnUpdate()
             }
             else
             {   
+				if (circleY > 900)
+				{
+					CONSOLE_OUTPUT(L"Missed!" << std::endl);
+					it = fallingCircles.erase(it);
+				}
+				else
                 it++;
             }
         }
     }
-
 }
 
 void MusicScript::OnDisable()

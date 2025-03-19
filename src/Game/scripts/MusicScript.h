@@ -35,12 +35,14 @@ public:
     void LoadNotesFromFile(const std::string& filename);
 
 private:
-    float BPM = 200.f;
+    float BPM = 260.f;
     float SECONDS_PER_BEAT = 60.0f / BPM;
-    const float TIMING_WINDOW = 0.055f;
+    const float TIMING_WINDOW = 0.065f;
     const float FALL_SPEED = 100.0f;
 	const float AR = 8.0f;
     bool musicStarted;
+    bool isFirstKeyDown = false;
+    bool isSecondKeyDown = false;
     float firstNote;
 
     sf::Vector2f movement;
