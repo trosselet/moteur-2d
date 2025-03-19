@@ -7,14 +7,19 @@
 #include "ECS/Components/SpriteRenderer.h"
 #include "ECS/Components/RigidBody2D.h"
 
+PlayerMovement::PlayerMovement()
+{
+}
+
 void PlayerMovement::OnStart()
 {
+    mTransform = owner->GetTransform();
 }
 
 void PlayerMovement::OnFixedUpdate()
 {
     float speed = 2000.0f;
-    owner->GetTransform()->position += movement * speed;
+    mTransform->SetPosition(mTransform->position + movement * speed);
     movement = sf::Vector2f(0, 0);
 }
 
@@ -22,19 +27,19 @@ void PlayerMovement::OnUpdate()
 {
     if (isKeyPressed(sf::Keyboard::Key::D))
     {
-        movement += owner->GetTransform()->right * Engine::GetDeltaTime();
+        movement += mTransform->right * Engine::GetDeltaTime();
     }
     if (isKeyPressed(sf::Keyboard::Key::Q))
     {
-        movement -= owner->GetTransform()->right * Engine::GetDeltaTime();
+        movement -= mTransform->right * Engine::GetDeltaTime();
     }
     if (isKeyPressed(sf::Keyboard::Key::S))
     {
-        movement += owner->GetTransform()->up * Engine::GetDeltaTime();
+        movement += mTransform->up * Engine::GetDeltaTime();
     }
     if (isKeyPressed(sf::Keyboard::Key::Z))
     {
-        movement -= owner->GetTransform()->up * Engine::GetDeltaTime();
+        movement -= mTransform->up * Engine::GetDeltaTime();
     }
 }
 
