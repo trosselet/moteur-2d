@@ -4,7 +4,7 @@
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/Music.hpp>
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 class RigidBody2D;
 
@@ -24,7 +24,7 @@ class MusicScript : public IScript
     };
 
 public:
-    MusicScript() = default;
+    MusicScript();
 
     void OnStart() override;
     void OnFixedUpdate() override;
@@ -33,16 +33,24 @@ public:
 
     void OnRender(RenderWindow* window) override;
     void LoadNotesFromFile(const std::string& filename);
+	void SetBPM(float bpm) { BPM = bpm; }
+
+	void IncreaseCombo();
+	void ResetCombo();
+    void ShowCombo(sf::RenderWindow& window);
+
+	void SetupTexts();
+    void SetHitAreas();
 
 private:
-    float BPM = 260.f;
+    float BPM = 1.f;
     float SECONDS_PER_BEAT = 60.0f / BPM;
-    const float TIMING_WINDOW = 0.065f;
+    const float TIMING_WINDOW = 0.08f;
     const float FALL_SPEED = 100.0f;
 	const float AR = 8.0f;
     bool musicStarted;
-    bool isFirstKeyDown = false;
-    bool isSecondKeyDown = false;
+    bool sKeyPressed = false;
+    bool dKeyPressed = false;
     float firstNote;
 
     sf::Vector2f movement;
@@ -51,5 +59,14 @@ private:
     std::vector<BeatCircle> fallingCircles;
     std::vector<NoteData> noteDataList;
     sf::RectangleShape hitRect;
+	sf::CircleShape hitCircle;
     sf::RenderWindow* window = nullptr;
+
+    sf::Text comboText;
+    sf::Text maxComboText; 
+	sf::Text BPMText;
+
+    int combo = 0;
+    int maxCombo = 0;
+
 };

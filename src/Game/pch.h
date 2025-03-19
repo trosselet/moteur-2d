@@ -6,6 +6,7 @@
 #include "Render/Texture.h"
 #include "Render/Sprite.h"
 #include "Render/RenderWindow.h"
+#include "Resources.h"
 
 #include <windows.h>
 #include <iostream>
