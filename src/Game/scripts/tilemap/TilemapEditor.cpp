@@ -17,9 +17,7 @@ void TilemapEditor::OnStart()
 
     mSelector.setFillColor(sf::Color::Red);
 
-    std::string path = "../../res/Tiles/";
-    for (const auto & entry : std::filesystem::directory_iterator(path))
-        std::cout << entry.path() << '\n';
+    Sprite* sprite = new Sprite(*Resources::instance().SPRITE_SHEET);
 
     for (int x = 0; x <= tilePerRow; x++) {
         int tileX = x * tileSize;

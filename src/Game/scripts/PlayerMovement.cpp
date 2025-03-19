@@ -7,6 +7,10 @@
 #include "ECS/Components/SpriteRenderer.h"
 #include "ECS/Components/RigidBody2D.h"
 
+PlayerMovement::PlayerMovement()
+{
+}
+
 void PlayerMovement::OnStart()
 {
     mTransform = owner->GetTransform();

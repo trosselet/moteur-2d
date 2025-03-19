@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include <map>
 
 #include "scripts/Script.h"
 #include <set>
@@ -12,6 +11,8 @@ struct Tile
 
 class TilemapEditor : public IScript
 {
+
+    std::string mPAthToTileSet = "../../res/Tiles/tileset.png";
 
     int currentTileIndex = 0;
     std::vector<Tile> tileMap;
