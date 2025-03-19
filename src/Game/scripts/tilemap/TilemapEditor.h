@@ -1,15 +1,24 @@
 ﻿#pragma once
+#include <map>
+
 #include "scripts/Script.h"
 #include <set>
 
 struct Tile
 {
-    Sprite* texture;
+    std::string tileName;
     sf::Vector2f position;
 };
 
 class TilemapEditor : public IScript
 {
+
+    int currentTileIndex = 0;
+    std::vector<Tile> tileMap;
+
+    std::vector<Tile> mTiles;
+    std::set<int> mUsedTile;
+    
     TRANSFORM* mTransform;
     sf::Vector2f movement;
     
@@ -17,8 +26,6 @@ class TilemapEditor : public IScript
     
     sf::RectangleShape mSelector;
     sf::VertexArray mGridVertices;
-    std::vector<Tile> mTiles;
-    std::set<int> mUsedTile;
 
     sf::Vector2i mCurrentCase;
     sf::Vector2i mOffset;

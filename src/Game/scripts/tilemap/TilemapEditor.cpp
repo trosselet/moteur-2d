@@ -5,9 +5,7 @@
 
 #include "Resources.h"
 
-TilemapEditor::TilemapEditor() : mSelector({50, 50}), mTiles(), mOffset({0, 0})
-{
-}
+TilemapEditor::TilemapEditor() : mSelector({50, 50}), mTiles(), mOffset({0, 0}) { }
 
 void TilemapEditor::OnStart()
 {
@@ -18,6 +16,10 @@ void TilemapEditor::OnStart()
     mOffset.y = halfMapSize;
 
     mSelector.setFillColor(sf::Color::Red);
+
+    std::string path = "../../res/Tiles/";
+    for (const auto & entry : std::filesystem::directory_iterator(path))
+        std::cout << entry.path() << '\n';
 
     for (int x = 0; x <= tilePerRow; x++) {
         int tileX = x * tileSize;
@@ -74,7 +76,7 @@ void TilemapEditor::OnUpdate()
        if (!mUsedTile.contains(index))
        {
            mUsedTile.emplace(index);
-           mTiles.push_back(Tile(Resources::instance().DEFAULT_SPRITE, sf::Vector2f(mCurrentCase)));
+           mTiles.push_back(Tile("", sf::Vector2f(mCurrentCase)));
        }
     }
 
@@ -94,6 +96,17 @@ void TilemapEditor::OnUpdate()
     {
         movement -= mTransform->up * Engine::GetDeltaTime() * 1000.0f;
     }
+
+    
+    if (isKeyPressed(sf::Keyboard::Key::Left))
+    {
+        
+    }
+
+    if (isKeyPressed(sf::Keyboard::Key::Right))
+    {
+        
+    }
     
 }
 
@@ -109,8 +122,6 @@ void TilemapEditor::OnRender(RenderWindow* window)
     Debug::Log("Tile number " + std::to_string(mTiles.size()));
     for (Tile tile : mTiles)
     {
-        tile.texture->setPosition(tile.position);
-        window->Draw(tile.texture);
     }
     
 }

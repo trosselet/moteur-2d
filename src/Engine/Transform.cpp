@@ -26,8 +26,7 @@ void TRANSFORM::Identity()
     position.x = 0.0f;
     position.y = 0.0f;
 
-    rotation.x = 0.0f;
-    rotation.y = 0.0f;
+    rotation = sf::Angle::Zero;
     
     up.x = 0.0f;
     up.y = 1.0f;
@@ -66,7 +65,7 @@ void TRANSFORM::SetScale(sf::Vector2f pScale)
     mDirty = true;
 }
 
-void TRANSFORM::SetRotation(sf::Vector2f pRotation)
+void TRANSFORM::SetRotation(sf::Angle pRotation)
 {
     rotation = pRotation;
     for (Entity* child : mChildEntities)

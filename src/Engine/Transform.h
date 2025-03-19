@@ -17,7 +17,7 @@ public:
     sf::Vector2f up;
     sf::Vector2f right;
 
-    sf::Vector2f rotation;
+    sf::Angle rotation;
     sf::Vector2f scale;
     sf::Vector2f position;
 
@@ -31,7 +31,7 @@ public:
     
     void SetPosition(sf::Vector2f pVec);
     void SetScale(sf::Vector2f pScale);
-    void SetRotation(sf::Vector2f pRotation);
+    void SetRotation(sf::Angle pRotation);
     
     void Rotate(float x, float y);
     void RotatePitch(float angle);
