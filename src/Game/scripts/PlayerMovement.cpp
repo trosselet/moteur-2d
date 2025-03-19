@@ -13,7 +13,7 @@ void PlayerMovement::OnStart()
 
 void PlayerMovement::OnFixedUpdate()
 {
-    float speed = 2000.0f;
+    float speed = 200.0f;
     owner->GetTransform()->position += movement * speed;
     movement = sf::Vector2f(0, 0);
 }

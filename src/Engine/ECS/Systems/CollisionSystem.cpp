@@ -6,8 +6,8 @@
 #include "scripts/ScriptManager.h"
 #include "Utils/Profiler.h"
 
-int MAX_ITERATIONS = 5;
-float PENETRATION_SLACK = 0.015f;
+int MAX_ITERATIONS = 2;
+float PENETRATION_SLACK = 0.0f;
 
 CollisionSystem& CollisionSystem::Get()
 {
@@ -17,7 +17,7 @@ CollisionSystem& CollisionSystem::Get()
 
 CollisionSystem::CollisionSystem()
 {
-    mGrid = new SpatialGrid(100.0f, 0,0,4,4);
+    mGrid = new SpatialGrid(100.0f, 0,0,20,10);
 }
 
 
@@ -119,15 +119,22 @@ void CollisionSystem::ResolvePositions()
         
         RigidBody2D* rb1 = entity1->HasComponent<RigidBody2D>() ? entity1->GetComponent<RigidBody2D>() : nullptr;
         RigidBody2D* rb2 = entity2->HasComponent<RigidBody2D>() ? entity2->GetComponent<RigidBody2D>() : nullptr;
-        
+
         float totalInvMass = 0.0f;
-        if (rb1 && !collider1->IsStatic() && !collider1->IsTrigger()) totalInvMass += rb1->GetInvMass();
-        if (rb2 && !collider2->IsStatic() && !collider2->IsTrigger()) totalInvMass += rb2->GetInvMass();
+
+        if(rb1 || rb2)
+        {
+            if (rb1 && !collider1->IsStatic() && !collider1->IsTrigger()) totalInvMass += rb1->GetInvMass();
+            if (rb2 && !collider2->IsStatic() && !collider2->IsTrigger()) totalInvMass += rb2->GetInvMass();
         
-        if (totalInvMass <= 0.0f)
+            if (totalInvMass <= 0.0f)
+                continue; 
+        }
+        else
         {
             totalInvMass = 1.0f;
-        };
+        }
+
         
         float correctionAmount = manifold.penetrationDepth / totalInvMass;
         
@@ -145,7 +152,7 @@ void CollisionSystem::ResolvePositions()
         else if (!collider1->IsStatic())
         {
             sf::Vector2f pos = entity1->GetTransform()->position;
-            sf::Vector2f correction = collisionNormal * (correctionAmount * mFixedTimestep);
+            sf::Vector2f correction = collisionNormal * (correctionAmount);
             pos = pos - correction;
             entity1->GetTransform()->position = pos;
             collider1->SetOrigin(pos);
@@ -163,7 +170,7 @@ void CollisionSystem::ResolvePositions()
         else if (!collider2->IsStatic())
         {
             sf::Vector2f pos = entity2->GetTransform()->position;
-            sf::Vector2f correction = collisionNormal * (correctionAmount * mFixedTimestep);
+            sf::Vector2f correction = collisionNormal * (correctionAmount);
             pos = pos - correction;
             entity2->GetTransform()->position = pos;
             collider2->SetOrigin(pos);
@@ -299,7 +306,7 @@ void CollisionSystem::OnFixedUpdate(ECS* globalEC)
                 
         ResolvePositions();
         
-        ResolveVelocities();
+        //ResolveVelocities();
         
     }
     
