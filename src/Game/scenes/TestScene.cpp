@@ -21,8 +21,8 @@ void TestScene::OnEnter()
     player = ObjectFactory::CreateEntity<Entity>();
     player->GetTransform()->SetPosition(0.0f, 0.0f);
     ObjectFactory::CreateComponent<SpriteRenderer>(player, Resources::instance().DEFAULT_SPRITE);
-    ObjectFactory::CreateComponent<AABBCollider>(player, 0.0f,0.0f,10.0f,10.0f);
-    //ObjectFactory::CreateComponent<CircleCollider>(player, 10.0f);
+    //ObjectFactory::CreateComponent<AABBCollider>(player, 0.0f,0.0f,10.0f,10.0f);
+    ObjectFactory::CreateComponent<CircleCollider>(player, 10.0f);
     player->SetTag(Entity::Tag::PLAYER);
     
     ObjectFactory::AttachScript<PlayerMovement>(player);

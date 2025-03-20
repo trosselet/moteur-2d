@@ -7,7 +7,7 @@
 #include "Utils/Profiler.h"
 
 int MAX_ITERATIONS = 2;
-float PENETRATION_SLACK = 0.0f;
+float PENETRATION_SLACK = 0.15f;
 
 CollisionSystem& CollisionSystem::Get()
 {

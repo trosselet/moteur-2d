@@ -9,6 +9,9 @@ public:
     float GetMaxY() const { return mYMax; }
     float GetMinX() const { return mXMin; }
     float GetMinY() const { return mYMin; }
+
+    sf::Vector2f GetMin() { return { mXMin, mYMin }; }
+    sf::Vector2f GetMax() { return { mXMax, mYMax }; }
 protected:
     float mXMin;
     float mYMin;

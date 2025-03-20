@@ -162,62 +162,40 @@ float ClosestPtPointBoxCollider(const sf::Vector2f& p, const AABBCollider* b, sf
 
 CollisionManifold Collider2D::CheckCollisionCircleBox(Collider2D* Collider2)
 {
-    CollisionManifold manifold;
+    CollisionManifold result;
     CircleCollider* circle;
     AABBCollider* box;
     
-    if (Collider2->GetColliderType() == ColliderType::CIRCLE)
-    {
-        circle = static_cast<CircleCollider*>(Collider2);
-        box = static_cast<AABBCollider*>(this);
-    }
-    else
+    if(this->mColliderType == ColliderType::CIRCLE)
     {
         circle = static_cast<CircleCollider*>(this);
         box = static_cast<AABBCollider*>(Collider2);
     }
-
-    sf::Vector2f center = circle->GetOrigin();
-    sf::Vector2f bCenter = box->GetOrigin();
+    else
+    {
+        circle = static_cast<CircleCollider*>(Collider2);
+        box = static_cast<AABBCollider*>(this);
+    }
     
     sf::Vector2f closestPoint;
-    
-    float distSq = ClosestPtPointBoxCollider(center, box, closestPoint);
+    sf::Vector2f boxPosition = box->GetEntity()->GetTransform()->position;
+    closestPoint.x = std::max(box->GetMinX() + boxPosition.x, std::min(circle->GetOrigin().x + circle->GetRadius(), box->GetMaxX() + boxPosition.x));
+    closestPoint.y = std::max(box->GetMinY() + boxPosition.y, std::min(circle->GetOrigin().y + circle->GetRadius(), box->GetMaxY() + boxPosition.y));
 
-    float dist = sqrtf(distSq);
-    float sphereRadius = circle->GetRadius();
+    sf::Vector2f distance = {circle->GetOrigin().x + circle->GetRadius() - closestPoint.x, circle->GetOrigin().y + circle->GetRadius()- closestPoint.y};
+    float distanceLength = std::sqrt(distance.x * distance.x + distance.y * distance.y);
 
-    if (distSq <= (sphereRadius * sphereRadius)) 
+    if (distanceLength < circle->GetRadius())
     {
-        manifold.hasCollision = true;
-
-        if (distSq > 1e-6f) 
-        {
-            sf::Vector2f diff = center - closestPoint;
-            manifold.collisionNormal = diff.normalized();
-        }
-        else
-        {
-
-            sf::Vector2f diff = center - bCenter;
-
-            if (std::fabs(diff.x) > std::fabs(diff.y)) 
-            {
-                manifold.collisionNormal = {diff.x > 0 ? -1.0f : 1.0f, 0.0f};
-            }
-            else
-            {
-                manifold.collisionNormal = {0.0f, diff.y > 0 ? -1.0f : 1.0f};
-            }
-        }
-
-        manifold.penetrationDepth = sphereRadius - dist; 
-
-        return manifold;
+        result.hasCollision = true;
+        result.collisionNormal = distance / distanceLength;
+        result.penetrationDepth = circle->GetRadius() - distanceLength;
+    }
+    else
+    {
+        result.hasCollision = false;
     }
 
-    manifold.hasCollision = false;
-    return manifold;
+    return result;
 }
-
 
