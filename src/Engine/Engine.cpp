@@ -41,7 +41,7 @@ void Engine::CreateRender()
     RenderWindow* window = instance().mRenderWindow;
     if (window) return;
     
-    window = new RenderWindow("La window", 1600, 900);
+    window = new RenderWindow("La window", 1920, 1080);
     
     instance().mCameraSystem = new CameraSystem(window);
     instance().mRenderSystem = new RenderSystem(window);
