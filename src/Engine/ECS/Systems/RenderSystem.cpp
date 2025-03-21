@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "ECS/ECS.h"
 #include "../Components/SpriteRenderer.h"
+#include "ECS/Components/Collider2D.h"
 #include "ECS/Components/Camera.h"
 #include "ECS/Components/ui/Image.h"
 #include "Render/RenderWindow.h"
@@ -36,6 +37,12 @@ void RenderSystem::Render(ECS* globalEC)
             Image* image = globalEC->GetComponent<Image>(i);
             image->UIImage->setPosition(cameraTransform->position);
             window->Draw(image->UIImage);
+        }
+
+        if(globalEC->HasComponent<Collider2D>(i))
+        {
+            Collider2D* coll = globalEC->GetComponent<Collider2D>(i);
+            window->Draw(coll->GetShape());
         }
     }
 }

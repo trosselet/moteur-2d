@@ -24,7 +24,7 @@ void GameScene::OnEnter()
     
     ObjectFactory::AttachScript<PlayerMovement>(player);
     
-    Entity* camera = ObjectFactory::CreateEntity<Entity>(player);
+    Entity* camera = ObjectFactory::CreateEntity<Entity>();
     ObjectFactory::CreateComponent<Camera>(camera);
 
     Entity* expBar = ObjectFactory::CreateEntity<Entity>();
