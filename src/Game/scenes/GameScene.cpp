@@ -12,6 +12,7 @@
 #include "scripts/PlayerMovement.h"
 #include "scripts/MusicScript.h"
 
+
 void GameScene::OnEnter()
 {
 
@@ -24,12 +25,14 @@ void GameScene::OnEnter()
     
     ObjectFactory::AttachScript<MusicScript>(player);
     ObjectFactory::AttachScript<PlayerMovement>(player);
+    ObjectFactory::AttachScript<Inventory>(player);
     
     Entity* camera = ObjectFactory::CreateEntity<Entity>();
     ObjectFactory::CreateComponent<Camera>(camera);
 
     Entity* expBar = ObjectFactory::CreateEntity<Entity>();
     ObjectFactory::CreateComponent<Image>(expBar, Resources::instance().DEFAULT_SPRITE);
+
     
 }
 
