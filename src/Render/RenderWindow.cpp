@@ -1,7 +1,7 @@
 ﻿#include "RenderWindow.h"
 
+#include "Colors.h"
 #include "Sprite.h"
-#include "../../ide/Render/Colors.h"
 
 RenderWindow::RenderWindow(const std::string title, const int width, const int height, uint32_t style)
 : sf::RenderWindow(sf::VideoMode(sf::Vector2u(width, height)), title, style)

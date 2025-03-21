@@ -4,8 +4,10 @@
 class Editor : public Scene
 {
     void OnEnter() override;
-    void OnExit() override {}
-    void OnFixedUpdate() override {}
-    void Render() override {}
-    void OnUpdate() override;
+    void Render() override;
+
+public:
+    void OnFixedUpdate() override {};
+    void OnUpdate() override {};
+    void OnExit() override {};
 };

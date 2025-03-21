@@ -12,12 +12,11 @@
 
 #include "scripts/PlayerMovement.h"
 
+
 void GameScene::OnEnter()
 {
 
     srand(static_cast<unsigned int>(time(nullptr)));
-
-    Resources::instance().Initialize();
     
     Entity* player = ObjectFactory::CreateEntity<Entity>();
     player->GetTransform()->SetPosition(0.0f, -500.0f);
@@ -31,6 +30,7 @@ void GameScene::OnEnter()
 
     Entity* expBar = ObjectFactory::CreateEntity<Entity>();
     ObjectFactory::CreateComponent<Image>(expBar, Resources::instance().DEFAULT_SPRITE);
+
     
 }
 
