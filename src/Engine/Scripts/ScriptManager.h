@@ -9,8 +9,8 @@ class ScriptManager
 public:
     ScriptManager();
     
-    template <typename SType>
-    void CreateScript(Entity* entity);
+    template <typename SType, typename ... Args>
+    SType* CreateScript(Entity* entity, Args&&... args);
     
     void RemoveEntity(int* index);
 

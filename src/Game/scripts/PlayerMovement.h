@@ -1,5 +1,6 @@
 #pragma once
 #include "scripts/Script.h"
+#include "tilemap/TilemapEditor.h"
 
 class RigidBody2D;
 
@@ -7,7 +8,7 @@ class PlayerMovement : public IScript
 {
     
 public:
-    PlayerMovement() = default;
+    PlayerMovement();
     
     void OnStart() override;
     void OnFixedUpdate() override;
@@ -16,5 +17,6 @@ public:
     void OnDisable() override;
 
 private:
+    TRANSFORM* mTransform;
     sf::Vector2f movement;
 };

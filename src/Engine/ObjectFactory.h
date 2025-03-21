@@ -12,8 +12,8 @@ public:
     template <typename T, typename... Args>
     static T* CreateEntity(Entity* parent, Args&&... args);
 
-    template <typename S>
-    static void AttachScript(Entity* parent);
+    template <typename S, typename ... Args>
+    static S* AttachScript(Entity* parent, Args&&... args);
     
 };
 
@@ -39,8 +39,8 @@ EType* ObjectFactory::CreateEntity(Entity* parent, Args&&... args)
     return entity;
 }
 
-template <typename S>
-void ObjectFactory::AttachScript(Entity* owner)
+template <typename S, typename ... Args>
+S* ObjectFactory::AttachScript(Entity* owner, Args&&... args)
 {
-    Engine::GetScriptManager()->CreateScript<S>(owner);
+    return Engine::GetScriptManager()->CreateScript<S>(owner, args...);
 }
