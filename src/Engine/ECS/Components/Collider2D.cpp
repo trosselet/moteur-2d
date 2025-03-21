@@ -162,10 +162,9 @@ float ClosestPtPointBoxCollider(const sf::Vector2f& p, const AABBCollider* b, sf
 
 CollisionManifold Collider2D::CheckCollisionCircleBox(Collider2D* Collider2)
 {
-    CollisionManifold result;
     CircleCollider* circle;
     AABBCollider* box;
-    
+
     if(this->mColliderType == ColliderType::CIRCLE)
     {
         circle = static_cast<CircleCollider*>(this);
@@ -176,26 +175,71 @@ CollisionManifold Collider2D::CheckCollisionCircleBox(Collider2D* Collider2)
         circle = static_cast<CircleCollider*>(Collider2);
         box = static_cast<AABBCollider*>(this);
     }
+
+    sf::FloatRect boxBounds = box->GetShape()->getGlobalBounds();
+    sf::FloatRect circleBounds = circle->GetShape()->getGlobalBounds();
+
+    if (boxBounds.findIntersection(circleBounds))
+    {
+        sf::Vector2f b1Pos = boxBounds.position;
+        sf::Vector2f b2Pos = circleBounds.position;
     
-    sf::Vector2f closestPoint;
-    sf::Vector2f boxPosition = box->GetEntity()->GetTransform()->position;
-    closestPoint.x = std::max(box->GetMinX() + boxPosition.x, std::min(circle->GetOrigin().x + circle->GetRadius(), box->GetMaxX() + boxPosition.x));
-    closestPoint.y = std::max(box->GetMinY() + boxPosition.y, std::min(circle->GetOrigin().y + circle->GetRadius(), box->GetMaxY() + boxPosition.y));
+        float minX1 = boxBounds.position.x;
+        float maxX1 = boxBounds.size.x + b1Pos.x;
+        float minY1 = boxBounds.position.y;
+        float maxY1 = boxBounds.size.y + b1Pos.y;
+    
+        float minX2 = circleBounds.position.x;
+        float maxX2 = circleBounds.size.x + b2Pos.x;
+        float minY2 = circleBounds.position.y;
+        float maxY2 = circleBounds.size.y + b2Pos.y;
+    
+        CollisionManifold manifold;
 
-    sf::Vector2f distance = {circle->GetOrigin().x + circle->GetRadius() - closestPoint.x, circle->GetOrigin().y + circle->GetRadius()- closestPoint.y};
-    float distanceLength = std::sqrt(distance.x * distance.x + distance.y * distance.y);
+        if (maxX1 <= minX2 || maxX2 <= minX1)
+        {
+            manifold.hasCollision = false;
+            return manifold;
+        }
 
-    if (distanceLength < circle->GetRadius())
-    {
-        result.hasCollision = true;
-        result.collisionNormal = distance / distanceLength;
-        result.penetrationDepth = circle->GetRadius() - distanceLength;
+        if (maxY1 <= minY2 || maxY2 <= minY1)
+        {
+            manifold.hasCollision = false;
+            return manifold;
+        }
+
+        float overlapX = std::min(maxX1 - minX2, maxX2 - minX1);
+        float overlapY = std::min(maxY1 - minY2, maxY2 - minY1);
+
+        if (overlapX < overlapY)
+        {
+            if (minX2 < minX1 && maxX2 > minX1)
+            {
+                manifold.collisionNormal = sf::Vector2f(1, 0); 
+            }
+            else
+            {
+                manifold.collisionNormal = sf::Vector2f(-1, 0); 
+            }
+            manifold.penetrationDepth = overlapX;
+        }
+        else
+        {
+            if (minY2 < minY1 && maxY2 > minY1)
+            {
+                manifold.collisionNormal = sf::Vector2f(0, 1); 
+            }
+            else
+            {
+                manifold.collisionNormal = sf::Vector2f(0, -1); 
+            }
+            manifold.penetrationDepth = overlapY;
+        }
+
+        manifold.hasCollision = true;
+    
+        return manifold;
     }
-    else
-    {
-        result.hasCollision = false;
-    }
 
-    return result;
 }
 
