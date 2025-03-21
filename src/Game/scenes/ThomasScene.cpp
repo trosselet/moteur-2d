@@ -10,24 +10,25 @@
 #include "ECS/Components/ui/Image.h"
 
 #include "scripts/PlayerMovement.h"
+#include "scripts/EntityStateScript.h"
 
 void ThomasScene::OnEnter()
 {
     srand(static_cast<unsigned int>(time(nullptr)));
 
     Entity* player = ObjectFactory::CreateEntity<Entity>();
-    player->GetTransform()->SetPosition(0.0f, -500.0f);
+    player->GetTransform()->SetPosition(0.0f, 0.0f);
     ObjectFactory::CreateComponent<SpriteRenderer>(player, Resources::instance().DEFAULT_SPRITE);
     player->SetTag(Entity::Tag::PLAYER);
 
     ObjectFactory::AttachScript<PlayerMovement>(player);
+    ObjectFactory::AttachScript<EntityStateScript>(player);
 
     Entity* camera = ObjectFactory::CreateEntity<Entity>();
     ObjectFactory::CreateComponent<Camera>(camera);
 
     Entity* expBar = ObjectFactory::CreateEntity<Entity>();
     ObjectFactory::CreateComponent<Image>(expBar, Resources::instance().DEFAULT_SPRITE);
-
 }
 
 void ThomasScene::OnUpdate()
