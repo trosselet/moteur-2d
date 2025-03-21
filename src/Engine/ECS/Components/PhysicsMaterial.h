@@ -10,7 +10,7 @@ struct PhysicsMaterial : Component
     void SetNewMaterial(const PhysicsMaterial* material);
     int GetBitmask() override;
     
-    float mElasticity = 0.9f;
+    float mElasticity = 0.1f;
     
     //Not Used
     float mStaticFriction = 0.6f;

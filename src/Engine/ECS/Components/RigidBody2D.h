@@ -22,16 +22,10 @@ public:
     float mGravity;
     float mMass; //Weight in KG
     float mDamping;
-    float mAngularDamping = 0.5f;     
     bool UseGravity;
-    float mWidth;
-    float mHeight;
-    float mRadius;
     bool IsStatic;
     RIGIDBODYTYPE mType;
     sf::Vector2f mVelocity;
-    sf::Vector2f mTorque;
-    sf::Vector2f mOrientation;
     
 protected:
     sf::Vector2f mAllForces = {0.0f,0.0f};
@@ -52,7 +46,6 @@ public:
     void ClearVelocity();
     float GetInvMass() const { return 1/mMass; }
     void ApplyImpulse(sf::Vector2f impulse);
-    void AddTorque(sf::Vector2f torque);
 #pragma endregion
 
 };

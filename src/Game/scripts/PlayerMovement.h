@@ -12,6 +12,7 @@ public:
     
     void OnStart() override;
     void OnFixedUpdate() override;
+    void OnCollisionEnter(Entity* other) override;
     void OnUpdate() override;
     void OnDisable() override;
 

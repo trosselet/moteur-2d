@@ -14,6 +14,7 @@ public:
     void Draw(Sprite* sprite);
     void Draw(Sprite* sprite, Shader* shader);
     void Draw(const sf::Text* text);
+    void Draw(sf::Shape* shape);
     void EndFrame();
     
     int GetWindowWidth();

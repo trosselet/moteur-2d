@@ -30,6 +30,11 @@ void RenderWindow::Draw(const sf::Text* text)
     draw(*text);
 }
 
+void RenderWindow::Draw(sf::Shape* shape)
+{
+    draw(*shape);
+}
+
 void RenderWindow::EndFrame()
 {
     display();

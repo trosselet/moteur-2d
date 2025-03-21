@@ -7,6 +7,7 @@
 
 #include "scenes/Editor.h"
 #include "scenes/GameScene.h"
+#include "scenes/TestScene.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
@@ -17,9 +18,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
     Resources::instance().Initialize();
     
-    Engine::GetGameManager()->LaunchScene<GameScene>();
-
-
-#undef CONSOLE_OUTPUT
+    Engine::GetGameManager()->LaunchScene<TestScene>();
+  
     return 0;
 }

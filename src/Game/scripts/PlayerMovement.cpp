@@ -18,9 +18,14 @@ void PlayerMovement::OnStart()
 
 void PlayerMovement::OnFixedUpdate()
 {
-    float speed = 2000.0f;
-    mTransform->SetPosition(mTransform->position + movement * speed);
+    float speed = 200.0f;
+    owner->GetTransform()->position += movement * speed;
     movement = sf::Vector2f(0, 0);
+}
+
+void PlayerMovement::OnCollisionEnter(Entity* other)
+{
+    std::cout << "Collision Enter" << std::endl;
 }
 
 void PlayerMovement::OnUpdate()
@@ -41,7 +46,9 @@ void PlayerMovement::OnUpdate()
     {
         movement -= mTransform->up * Engine::GetDeltaTime();
     }
+
 }
+
 
 void PlayerMovement::OnDisable()
 {
