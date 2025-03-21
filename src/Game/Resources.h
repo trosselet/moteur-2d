@@ -30,6 +30,7 @@ public:
     /////// TEXTURES
 
     Texture* DEFAULT_TEXTURE;
+    Texture* SPRITE_SHEET;
     
     ////////////////////////////////
     /////// SPRITES

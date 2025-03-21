@@ -5,5 +5,5 @@
 class Texture : public sf::Texture
 {
 public:
-    Texture(std::string path);
+    Texture(std::string path, bool customPath=false);
 };
