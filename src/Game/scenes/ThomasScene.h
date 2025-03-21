@@ -1,6 +1,6 @@
 #pragma once
 #include "Managers/Scene.h"
-class GameScene : public Scene
+class ThomasScene : public Scene
 {
     void OnEnter() override;
     void OnExit() override {}

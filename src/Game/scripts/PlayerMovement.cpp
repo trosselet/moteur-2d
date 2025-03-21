@@ -32,19 +32,19 @@ void PlayerMovement::OnUpdate()
 {
     if (isKeyPressed(sf::Keyboard::Key::D))
     {
-        movement += mTransform->right * Engine::GetDeltaTime();
+        movement -= mTransform->right * Engine::GetDeltaTime();
     }
     if (isKeyPressed(sf::Keyboard::Key::Q))
     {
-        movement -= mTransform->right * Engine::GetDeltaTime();
+        movement += mTransform->right * Engine::GetDeltaTime();
     }
     if (isKeyPressed(sf::Keyboard::Key::S))
     {
-        movement += mTransform->up * Engine::GetDeltaTime();
+        movement -= mTransform->up * Engine::GetDeltaTime();
     }
     if (isKeyPressed(sf::Keyboard::Key::Z))
     {
-        movement -= mTransform->up * Engine::GetDeltaTime();
+        movement += mTransform->up * Engine::GetDeltaTime();
     }
 
 }
