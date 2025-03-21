@@ -23,6 +23,7 @@ void GameScene::OnEnter()
     player->SetTag(Entity::Tag::PLAYER);
     
     ObjectFactory::AttachScript<PlayerMovement>(player);
+    ObjectFactory::AttachScript<Inventory>(player);
     
     Entity* camera = ObjectFactory::CreateEntity<Entity>(player);
     ObjectFactory::CreateComponent<Camera>(camera);

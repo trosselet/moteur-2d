@@ -21,11 +21,11 @@ void Inventory::OnStart()
 		Item{ ItemList::STONE2, 0, 20, false, EBonus::NONE_BONUS, EMalus::NONE_MALUS },
 		Item{ ItemList::STONE3, 0, 20, false, EBonus::NONE_BONUS, EMalus::NONE_MALUS },
 	};
+	DisplayInventory();
 }
 
 void Inventory::OnUpdate()
 {
-
 }
 
 void Inventory::AddItemCount(int id, unsigned int amount)
